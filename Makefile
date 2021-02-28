@@ -9,3 +9,7 @@ destroy-containers:
 
 start-fresh-server:
 	$(MAKE) destroy-containers; $(MAKE) build-image && $(MAKE) run-containers
+
+
+requirements:
+	poetry export -f requirements.txt --output requirements.txt
