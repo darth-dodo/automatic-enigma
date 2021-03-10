@@ -2,7 +2,7 @@ from django.http import JsonResponse
 import datetime
 import pytz
 from django.core.management.utils import get_random_secret_key
-
+from backend.settings import Base
 
 def ping(request):
     data = dict()

@@ -12,118 +12,195 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
+from configurations import Configuration, values
+import logging.config
+from django.utils.log import DEFAULT_LOGGING
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+class Base(Configuration):
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+    # Build paths inside the project like this: BASE_DIR / 'subdir'.
+    BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
+    SECRET_KEY = values.SecretValue()
+    LOG_LEVEL = values.Value(environ_prefix="", default="ERROR")
 
-DEBUG = int(os.environ.get('DEBUG', default=0))
+    DEBUG = values.BooleanValue(environ_prefix="", default=False)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'murmuring-scrubland-86978.herokuapp.com']
+    ALLOWED_HOSTS = values.ListValue(
+        environ_prefix="",
+        default=["localhost", "127.0.0.1", "murmuring-scrubland-86978.herokuapp.com"],
+    )
 
-# Application definition
+    # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
+    SYSTEM_APPS = [
+        "django.contrib.admin",
+        "django.contrib.auth",
+        "django.contrib.contenttypes",
+        "django.contrib.sessions",
+        "django.contrib.messages",
+        "django.contrib.staticfiles",
+        "django_extensions",
+    ]
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    PROJECT_APPS = []
 
-ROOT_URLCONF = 'backend.urls'
+    INSTALLED_APPS = SYSTEM_APPS + PROJECT_APPS
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
+    MIDDLEWARE = [
+        "django.middleware.security.SecurityMiddleware",
+        "whitenoise.middleware.WhiteNoiseMiddleware",
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    ]
+
+    ROOT_URLCONF = "backend.urls"
+
+    TEMPLATES = [
+        {
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+            "DIRS": [],
+            "APP_DIRS": True,
+            "OPTIONS": {
+                "context_processors": [
+                    "django.template.context_processors.debug",
+                    "django.template.context_processors.request",
+                    "django.contrib.auth.context_processors.auth",
+                    "django.contrib.messages.context_processors.messages",
+                ],
+            },
         },
-    },
-]
+    ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+    WSGI_APPLICATION = "backend.wsgi.application"
 
+    # Database
+    # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+    DATABASES = values.DatabaseURLValue(
+        environ_prefix="",
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=None,
+    )
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # Password validation
+    # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        },
+    ]
+
+    # Internationalization
+    # https://docs.djangoproject.com/en/3.1/topics/i18n/
+
+    LANGUAGE_CODE = "en-us"
+
+    TIME_ZONE = "Asia/Kolkata"
+
+    USE_I18N = True
+
+    USE_L10N = True
+
+    USE_TZ = True
+
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+    STATIC_URL = "/static/"
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "verbose": {
+                "format": "%(levelname)s %(asctime)s %(module)s "
+                "%(process)d %(thread)d %(message)s"
+            }
+        },
+        "handlers": {
+            "console": {
+                "level": "DEBUG",
+                "class": "logging.StreamHandler",
+                "formatter": "verbose",
+            }
+        },
+        "root": {"level": "INFO", "handlers": ["console"]},
     }
-}
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
+class Dev(Base):
+    DEBUG = values.BooleanValue(environ_prefix="", default=True)
+    INTERNAL_IPS = values.ListValue(environ_prefix="", default=["127.0.0.1"])
+    LOG_LEVEL = "DEBUG"
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+    DEV_APPS = []
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+    DEV_MIDDLEWARE = []
+
+    INSTALLED_APPS = Base.INSTALLED_APPS + DEV_APPS
+    MIDDLEWARE = Base.MIDDLEWARE + DEV_MIDDLEWARE
+
+    DEBUG = values.BooleanValue(environ_prefix="", default=True)
+    INTERNAL_IPS = values.ListValue(environ_prefix="", default=["127.0.0.1"])
+    LOG_LEVEL = "DEBUG"
+
+    logging.config.dictConfig(
+        {
+            "version": 1,
+            "disable_existing_loggers": False,
+            "formatters": {
+                "default": {
+                    # exact format is not important, this is the minimum information
+                    "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+                },
+                "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
+            },
+            "handlers": {
+                # console logs to stderr
+                "console": {
+                    "class": "logging.StreamHandler",
+                    "formatter": "default",
+                },
+                "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
+            },
+            "loggers": {
+                # default for all undefined Python modules
+                "": {
+                    "level": "WARNING",
+                    "handlers": ["console"],
+                },
+                # # Our application code
+                # "your_app": {
+                #     "level": LOG_LEVEL,
+                #     "handlers": ["console"],
+                #     # Avoid double logging because of root logger
+                #     "propagate": False,
+                # },
+                # Default runserver request logging
+                "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
+            },
+        }
+    )
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'Asia/Kolkata'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-STATIC_URL = '/static/'
+class Test(Dev):
+    pass
