@@ -20,6 +20,10 @@ black = "^20.8b1"
 Werkzeug = "^1.0.1"
 ipython = "^7.21.0"
 pre-commit = "^2.11.1"
+django-debug-toolbar = "^3.2"
+django-querycount = "^0.7.0"
+bpython = "^0.21"
+ipdb = "^0.13.6"
 
 [tool.black]
 line-length = 88
