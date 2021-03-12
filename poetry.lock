@@ -159,6 +159,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "django-querycount"
+version = "0.7.0"
+description = "Middleware that Prints the number of DB queries to the runserver console."
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "filelock"
 version = "3.0.12"
 description = "A platform independent file lock."
@@ -481,7 +489,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "b9c75c71dc38ce681a4d62e8f1c9a7ed48e477e344a718bacc2e5d260c32a4e0"
+content-hash = "0df8dfff50001af05e8da874a598dab5867da6f0269cfd83a8314b3ac714793b"
 
 [metadata.files]
 appdirs = [
@@ -542,6 +550,9 @@ django-debug-toolbar = [
 django-extensions = [
     {file = "django-extensions-3.1.1.tar.gz", hash = "sha256:674ad4c3b1587a884881824f40212d51829e662e52f85b012cd83d83fe1271d9"},
     {file = "django_extensions-3.1.1-py3-none-any.whl", hash = "sha256:9507f8761ee760748938fd8af766d0608fb2738cf368adfa1b2451f61c15ae35"},
+]
+django-querycount = [
+    {file = "django-querycount-0.7.0.tar.gz", hash = "sha256:8f5123d78716ff0704f2373e746a7200b8d8417798ce4a99bf2de87e3768f9ce"},
 ]
 filelock = [
     {file = "filelock-3.0.12-py3-none-any.whl", hash = "sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836"},

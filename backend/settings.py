@@ -158,6 +158,7 @@ class Dev(Base):
 
     DEV_MIDDLEWARE = [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
+        "querycount.middleware.QueryCountMiddleware",
     ]
 
     INSTALLED_APPS = Base.INSTALLED_APPS + DEV_APPS
