@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
-import os
-from configurations import Configuration, values
 import logging.config
+import os
+from pathlib import Path
+
+from configurations import Configuration, values
 from django.utils.log import DEFAULT_LOGGING
 
 
@@ -82,6 +83,7 @@ class Base(Configuration):
     # Database
     # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+    # postgres://USER:PASSWORD@HOST:PORT/NAME from https://github.com/jacobian/dj-database-url
     DATABASES = values.DatabaseURLValue(
         environ_prefix="",
         default=os.environ.get("DATABASE_URL"),
