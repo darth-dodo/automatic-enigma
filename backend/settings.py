@@ -151,18 +151,19 @@ class Base(Configuration):
 
 class Dev(Base):
     DEBUG = values.BooleanValue(environ_prefix="", default=True)
-    INTERNAL_IPS = values.ListValue(environ_prefix="", default=["127.0.0.1"])
+    INTERNAL_IPS = values.ListValue(environ_prefix="", default=Base.ALLOWED_HOSTS)
     LOG_LEVEL = "DEBUG"
 
-    DEV_APPS = []
+    DEV_APPS = ["debug_toolbar"]
 
-    DEV_MIDDLEWARE = []
+    DEV_MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
 
     INSTALLED_APPS = Base.INSTALLED_APPS + DEV_APPS
     MIDDLEWARE = Base.MIDDLEWARE + DEV_MIDDLEWARE
 
     DEBUG = values.BooleanValue(environ_prefix="", default=True)
-    INTERNAL_IPS = values.ListValue(environ_prefix="", default=["127.0.0.1"])
     LOG_LEVEL = "DEBUG"
 
     logging.config.dictConfig(
