@@ -37,3 +37,8 @@
 
 
 - staff has attached to time slot from x to y duration
+
+
+## ERD
+
+![EER Diagram](./staticfiles/erd.png)

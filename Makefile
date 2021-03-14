@@ -29,3 +29,7 @@ staff-data:
 
 reset-db:
 	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data
+
+
+generate-erd:
+	python manage.py graph_models -g -a -o staticfiles/erd.png
