@@ -20,7 +20,7 @@ from backend import settings
 
 from .views import ping
 
-urlpatterns = [path("admin/", admin.site.urls), path("ping/", ping, name="ping")]
+urlpatterns = [path("", admin.site.urls), path("ping/", ping, name="ping")]
 
 
 if "debug_toolbar" in settings.INSTALLED_APPS:

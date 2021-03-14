@@ -37,13 +37,18 @@ class UpdaterMixin(models.Model):
         abstract = True
 
 
+class CreatorUpdaterMixin(CreatorMixin, UpdaterMixin):
+    class Meta:
+        abstract = True
+
+
 class TimeStampedAndActivatorModel(TimeStampedModel, ActivatorModel):
     class Meta:
         abstract = True
 
 
 class Role(
-    TimeStampedAndActivatorModel, TitleSlugDescriptionModel, CreatorMixin, UpdaterMixin
+    TimeStampedAndActivatorModel, TitleSlugDescriptionModel, CreatorUpdaterMixin
 ):
     pass
 
@@ -51,7 +56,7 @@ class Role(
         return f"{self.title} - {self.slug} - {self.status}"
 
 
-class Staff(TimeStampedAndActivatorModel, CreatorMixin, UpdaterMixin):
+class Staff(TimeStampedAndActivatorModel, CreatorUpdaterMixin):
     id = models.OneToOneField(CoreUser, on_delete=models.PROTECT, primary_key=True)
     code = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=255)
@@ -79,7 +84,7 @@ class Staff(TimeStampedAndActivatorModel, CreatorMixin, UpdaterMixin):
         return f"{self.name} - {self.role}"
 
 
-class Feedback(TimeStampedModel, CreatorMixin, UpdaterMixin):
+class Feedback(TimeStampedModel, CreatorUpdaterMixin):
     member = models.ForeignKey(
         to="staff.Staff",
         on_delete=models.PROTECT,

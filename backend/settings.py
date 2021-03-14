@@ -43,6 +43,7 @@ class Base(Configuration):
         "django.contrib.messages",
         "django.contrib.staticfiles",
         "django_extensions",
+        "phonenumber_field",
     ]
 
     PROJECT_APPS = ["patient", "staff"]
@@ -147,6 +148,8 @@ class Base(Configuration):
     }
 
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+    # application settings
 
 
 class Dev(Base):
