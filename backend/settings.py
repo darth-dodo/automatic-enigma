@@ -45,7 +45,7 @@ class Base(Configuration):
         "django_extensions",
     ]
 
-    PROJECT_APPS = []
+    PROJECT_APPS = ["patient", "staff"]
 
     INSTALLED_APPS = SYSTEM_APPS + PROJECT_APPS
 
@@ -192,13 +192,13 @@ class Dev(Base):
                     "level": "WARNING",
                     "handlers": ["console"],
                 },
-                # # Our application code
-                # "your_app": {
-                #     "level": LOG_LEVEL,
-                #     "handlers": ["console"],
-                #     # Avoid double logging because of root logger
-                #     "propagate": False,
-                # },
+                # Our application code
+                "staff": {
+                    "level": LOG_LEVEL,
+                    "handlers": ["console"],
+                    # Avoid double logging because of root logger
+                    "propagate": False,
+                },
                 # Default runserver request logging
                 "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
             },

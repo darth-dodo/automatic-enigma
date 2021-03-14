@@ -13,3 +13,13 @@ start-fresh-server:
 
 requirements:
 	poetry export -f requirements.txt --output requirements.txt
+
+drop-db:
+	dropdb physio_db
+
+
+create-db:
+	createdb physio_db
+
+reset-db:
+	$(MAKE) drop-db ; $(MAKE) create-db && python manage.py migrate  && python manage.py bootstrap_db
