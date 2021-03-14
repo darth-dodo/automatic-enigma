@@ -30,7 +30,6 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Role created successfully! {str(role)}")
             )
 
-    # nosec
     def create_super_user(self) -> Staff:
         core_user = self._django_user(
             username="SuperUser",
@@ -93,6 +92,11 @@ class Command(BaseCommand):
     ):
         new_staff = Staff()
         new_staff.id = core_user
-        new_staff.name = "SuperUser"
-        new_staff.code = "SUPER"
-        new_staff.joining_date = datetime.datetime.today().date()
+        new_staff.name = name
+        new_staff.code = code
+        new_staff.role = role
+        new_staff.supervisor = supervisor
+        new_staff.joining_date = joining_date
+        new_staff.save()
+
+        return new_staff
