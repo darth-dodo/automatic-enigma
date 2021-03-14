@@ -21,5 +21,11 @@ drop-db:
 create-db:
 	createdb physio_db
 
+
+#data seeders
+staff-data:
+	python manage.py bootstrap_staff_data
+
+
 reset-db:
-	$(MAKE) drop-db ; $(MAKE) create-db && python manage.py migrate  && python manage.py bootstrap_db
+	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data
