@@ -32,4 +32,4 @@ reset-db:
 
 
 generate-erd:
-	python manage.py graph_models -g -a -o staticfiles/erd.png
+	python manage.py graph_models -g -a -o eerd.png

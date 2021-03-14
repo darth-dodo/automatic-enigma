@@ -41,4 +41,4 @@
 
 ## ERD
 
-![EER Diagram](./staticfiles/erd.png)
+![EER Diagram](./eerd.png)
