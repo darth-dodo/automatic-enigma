@@ -53,7 +53,7 @@ class Role(
     pass
 
     def __str__(self):
-        return f"{self.title} - {self.slug} - {self.status}"
+        return f"{self.title} - {self.slug} - {self.get_status_display()}"
 
 
 class Staff(TimeStampedAndActivatorModel, CreatorUpdaterMixin):
@@ -81,7 +81,7 @@ class Staff(TimeStampedAndActivatorModel, CreatorUpdaterMixin):
         verbose_name_plural = "Staff"
 
     def __str__(self):
-        return f"{self.name} - {self.role}"
+        return f"{self.name} - {self.role.title} - {self.get_status_display()}"
 
 
 class Feedback(TimeStampedModel, CreatorUpdaterMixin):

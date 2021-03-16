@@ -34,8 +34,12 @@ class PhoneNumber(PatientAbstractModel):
     class Meta:
         pass
 
+    @property
+    def primary_phone_number(self):
+        return "Primary" if self.is_primary else "Non Primary"
+
     def __str__(self):
-        return f"{self.phone_number} - {self.is_primary}"
+        return f"{self.phone_number} - {self.primary_phone_number}"
 
 
 class Patient(PatientAbstractModel):
@@ -70,7 +74,7 @@ class Patient(PatientAbstractModel):
         return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
-        return f"{self.full_name} - {self.gender} - {self.age}"
+        return f"{self.full_name} - {self.gender} - {self.age} | {self.created_by.name} {self.updated_by.name} "
 
 
 class PatientDetail(PatientAbstractModel):

@@ -7,7 +7,7 @@ from faker import Faker
 from staff.constants import SUPERUSER_STAFF_CODE
 from staff.models import CoreUser, Role, Staff
 
-fake = Faker()
+fake = Faker("en_IN")
 
 
 class Command(BaseCommand):
@@ -19,9 +19,9 @@ class Command(BaseCommand):
     @transaction.atomic()
     def handle(self, *args, **options):
 
-        # self.create_roles()
+        self.create_roles()
 
-        # self.create_super_user()
+        self.create_super_user()
 
         self.create_staff()
 
