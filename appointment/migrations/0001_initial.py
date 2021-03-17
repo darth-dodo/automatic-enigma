@@ -214,7 +214,7 @@ class Migration(migrations.Migration):
                         auto_now=True, verbose_name="modified"
                     ),
                 ),
-                ("is_flagged", models.BooleanField(default=True)),
+                ("is_flagged", models.BooleanField(default=False)),
                 ("notes", models.TextField(blank=True, null=True)),
                 (
                     "created_by",

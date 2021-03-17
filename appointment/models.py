@@ -88,7 +88,7 @@ class Appointment(AppointmentAbstractModel):
 
     def __str__(self):
         return (
-            f"Patient: {self.patient.full_name} Staff: {self.code} "
+            f"Patient: {self.patient.full_name} Staff: {self.staff.code} "
             f"Timeslot: {self.timeslot.title} State: {self.state.title} "
             f"Reminder Sent: {self.reminder_verbose}"
         )
@@ -111,7 +111,7 @@ class FollowUp(AppointmentAbstractModel):
         "appointment.State", on_delete=models.PROTECT, related_name="followups"
     )
     is_flagged = models.BooleanField(
-        default=True
+        default=False
     )  # in case we need to escalate the followup
     notes = models.TextField(blank=True, null=True)
 
@@ -134,10 +134,18 @@ class FollowUp(AppointmentAbstractModel):
         return "Y" if self.is_flagged else "N"
 
     def __str__(self):
-        return (
-            f"Patient: {self.original_appointment.patient.full_name} "
+
+        patient = f"Patient: {self.original_appointment.patient.full_name} "
+        original_appointment = (
             f"Original Appointment Date: {self.original_appointment.date} "
-            f"New Appointment Date: {self.new_appointment.date} "
+        )
+        if self.new_appointment:
+            new_appointment = f"New Appointment Date: {self.new_appointment.date} "
+        else:
+            new_appointment = "New Appointment Date: Pending"
+
+        return (
+            f"{patient} {original_appointment} {new_appointment} "
             f"State: {self.state.title}"
             f"Flagged: {self.flagged_verbose}"
         )
