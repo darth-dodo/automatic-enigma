@@ -33,5 +33,8 @@ reset-db:
 	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data && $(MAKE) patient-data
 
 
-generate-erd:
-	python manage.py graph_models -g -a -o eerd.png
+generate-inheritance-eerd:
+	python manage.py graph_models -g -a -v 2 -o eerd.png
+
+generate-simple-eerd:
+	python manage.py graph_models -E -g -a -v 2 -o simple-eerd.png

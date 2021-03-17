@@ -25,6 +25,7 @@
 - appointment has a time slot
 - appointment has a patient
 - appointment has a staff
+- appointment has a status
 - appointment has several followups
 - appointment has several appointment notes
 
