@@ -4,7 +4,6 @@ from patient.models import Patient, PatientDetail, PhoneNumber
 from staff.models import Staff
 
 # Register your models here.
-# admin.site.register(PhoneNumber)
 admin.site.register(Patient)
 admin.site.register(PatientDetail)
 

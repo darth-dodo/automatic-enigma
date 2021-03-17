@@ -29,9 +29,15 @@ staff-data:
 patient-data:
 	python manage.py bootstrap_patient_data
 
+appointment-data:
+	python manage.py bootstrap_appointment_data
+
 reset-db:
-	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data && $(MAKE) patient-data
+	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data && $(MAKE) patient-data && $(MAKE) appointment-data
 
 
-generate-erd:
-	python manage.py graph_models -g -a -o eerd.png
+generate-inheritance-eerd:
+	python manage.py graph_models -g -a -v 2 -o eerd.png
+
+generate-simple-eerd:
+	python manage.py graph_models -E -g -a -v 2 -o simple-eerd.png
