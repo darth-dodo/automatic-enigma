@@ -46,7 +46,7 @@ class Base(Configuration):
         "phonenumber_field",
     ]
 
-    PROJECT_APPS = ["patient", "staff", "appointment"]
+    PROJECT_APPS = ["patient", "staff", "appointment", "finance"]
 
     INSTALLED_APPS = SYSTEM_APPS + PROJECT_APPS
 
