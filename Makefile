@@ -12,4 +12,26 @@ start-fresh-server:
 
 
 requirements:
-	poetry export -f requirements.txt --output requirements.txt
+	poetry export --dev -f requirements.txt --output requirements.txt
+
+drop-db:
+	dropdb physio_db
+
+
+create-db:
+	createdb physio_db
+
+
+#data seeders
+staff-data:
+	python manage.py bootstrap_staff_data
+
+patient-data:
+	python manage.py bootstrap_patient_data
+
+reset-db:
+	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data && $(MAKE) patient-data
+
+
+generate-erd:
+	python manage.py graph_models -g -a -o eerd.png

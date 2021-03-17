@@ -43,9 +43,10 @@ class Base(Configuration):
         "django.contrib.messages",
         "django.contrib.staticfiles",
         "django_extensions",
+        "phonenumber_field",
     ]
 
-    PROJECT_APPS = []
+    PROJECT_APPS = ["patient", "staff"]
 
     INSTALLED_APPS = SYSTEM_APPS + PROJECT_APPS
 
@@ -148,6 +149,8 @@ class Base(Configuration):
 
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+    # application settings
+
 
 class Dev(Base):
     DEBUG = values.BooleanValue(environ_prefix="", default=True)
@@ -192,13 +195,13 @@ class Dev(Base):
                     "level": "WARNING",
                     "handlers": ["console"],
                 },
-                # # Our application code
-                # "your_app": {
-                #     "level": LOG_LEVEL,
-                #     "handlers": ["console"],
-                #     # Avoid double logging because of root logger
-                #     "propagate": False,
-                # },
+                # Our application code
+                "staff": {
+                    "level": LOG_LEVEL,
+                    "handlers": ["console"],
+                    # Avoid double logging because of root logger
+                    "propagate": False,
+                },
                 # Default runserver request logging
                 "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
             },
