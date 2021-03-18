@@ -8,9 +8,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBUG 0
 
+RUN apk update && apk add gcc libc-dev make git libffi-dev openssl-dev python3-dev libxml2-dev libxslt-dev
+
 # install psycopg2
 RUN apk update \
-    && apk add --virtual build-deps gcc python3-dev musl-dev openssl-dev\
     && apk add postgresql-dev \
     && pip install psycopg2 \
     && apk del build-deps
