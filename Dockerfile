@@ -16,7 +16,7 @@ RUN apk update \
     && apk del build-deps
 
 
-RUN pip install --upgrade pip setuptools wheel
+#RUN pip install --upgrade pip setuptools wheel
 
 # install dependencies
 COPY ./requirements.txt .
