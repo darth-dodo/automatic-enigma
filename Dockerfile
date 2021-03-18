@@ -10,10 +10,9 @@ ENV DEBUG 0
 
 # install psycopg2
 RUN apk update \
-    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add --virtual build-deps gcc libzbar-dev python3-dev musl-dev \
     && apk add postgresql-dev \
     && pip install psycopg2 \
-    && apt-get install -y libzbar-dev \
     && apk del build-deps
 
 # install dependencies
