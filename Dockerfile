@@ -8,8 +8,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBUG 0
 
-RUN apt update \
-    && apk add graphviz graphviz-dev
+RUN apt update && \
+    apk add --no-cache graphviz graphviz-dev
 
 # install psycopg2
 RUN apk update \
