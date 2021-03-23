@@ -36,6 +36,7 @@ class Base(Configuration):
     # Application definition
 
     SYSTEM_APPS = [
+        "grappelli",
         "django.contrib.admin",
         "django.contrib.auth",
         "django.contrib.contenttypes",
@@ -150,6 +151,15 @@ class Base(Configuration):
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
     # application settings
+
+    # Admin Panel
+    GRAPPELLI_ADMIN_TITLE = values.Value(
+        environ_prefix="", environ_name="ENTITY_NAME", default="Patient Management"
+    )
+    GRAPPELLI_AUTOCOMPLETE_LIMIT = values.IntegerValue(
+        environ_prefix="", environ_name="DROPDOWN_LIMITS", default=10
+    )
+    GRAPPELLI_SWITCH_USER = values.BooleanValue(environ_prefix="", default=True)
 
 
 class Dev(Base):

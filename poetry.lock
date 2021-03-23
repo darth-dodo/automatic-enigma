@@ -227,6 +227,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "django-grappelli"
+version = "2.14.3"
+description = "A jazzy skin for the Django Admin-Interface."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "django-model-utils"
 version = "4.1.1"
 description = "Django model mixins and utilities"
@@ -693,7 +701,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.8"
-content-hash = "6a40749e99de410931f6e64126ab98d201980db1b1fc7ced23a2a23de9d99c35"
+content-hash = "3b6858817ab1383a00cb56e218078ba0fec7cfa3705cc4bdb354c7f71da91ebe"
 
 [metadata.files]
 appdirs = [
@@ -805,6 +813,10 @@ django-debug-toolbar = [
 django-extensions = [
     {file = "django-extensions-3.1.1.tar.gz", hash = "sha256:674ad4c3b1587a884881824f40212d51829e662e52f85b012cd83d83fe1271d9"},
     {file = "django_extensions-3.1.1-py3-none-any.whl", hash = "sha256:9507f8761ee760748938fd8af766d0608fb2738cf368adfa1b2451f61c15ae35"},
+]
+django-grappelli = [
+    {file = "django-grappelli-2.14.3.tar.gz", hash = "sha256:4c499a8c9b1b4999fa361c69f58970959dc3530c36f5c5454d4c360e1962a0b3"},
+    {file = "django_grappelli-2.14.3-py2.py3-none-any.whl", hash = "sha256:941b1142088d35c3f91eda287fddea5f71b37990e43c1f588067e96ea04ddac8"},
 ]
 django-model-utils = [
     {file = "django-model-utils-4.1.1.tar.gz", hash = "sha256:eb5dd05ef7d7ce6bc79cae54ea7c4a221f6f81e2aad7722933aee66489e7264b"},
