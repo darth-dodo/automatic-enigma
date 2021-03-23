@@ -57,7 +57,9 @@ class Role(
 
 
 class Staff(TimeStampedAndActivatorModel, CreatorUpdaterMixin):
-    id = models.OneToOneField(CoreUser, on_delete=models.PROTECT, primary_key=True)
+    id = models.OneToOneField(
+        CoreUser, on_delete=models.PROTECT, primary_key=True, related_name="staff"
+    )
     code = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=255)
     joining_date = models.DateField()

@@ -25,6 +25,8 @@ class Command(BaseCommand):
 
         self.create_staff()
 
+        self.set_superuser_as_supervisor()
+
     def create_roles(self):
         roles = ["SuperUser", "Junior", "Mid", "Senior", "Intern"]
         for role_title in roles:
@@ -39,7 +41,9 @@ class Command(BaseCommand):
         core_user = self._django_user(
             username="SuperUser",
             password=None,
-            email="superuser@localhost.com",
+            first_name="Super",
+            last_name="User",
+            email="superuser@email.com",
             is_superuser=True,
             is_staff=True,
             is_active=True,
@@ -49,7 +53,6 @@ class Command(BaseCommand):
 
         staff_member = self._create_staff_member(
             core_user=core_user,
-            name="SuperUser",
             code=SUPERUSER_STAFF_CODE,
             role=su_role,
         )
@@ -68,7 +71,7 @@ class Command(BaseCommand):
         email: str = None,
         is_superuser: bool = False,
         is_active: bool = True,
-        is_staff: bool = False,
+        is_staff: bool = True,
     ) -> CoreUser:
         new_core_user = CoreUser()
 
@@ -76,7 +79,7 @@ class Command(BaseCommand):
         fake_last_name = fake.last_name()
 
         new_core_user.username = (
-            username if username else f"{fake.first_name()}.{fake.last_name()}".lower()
+            username if username else f"{fake_first_name}.{fake_last_name}".lower()
         )
         new_core_user.first_name = first_name if first_name else fake_first_name
         new_core_user.last_name = last_name if last_name else fake_last_name
@@ -100,25 +103,25 @@ class Command(BaseCommand):
         self,
         core_user: CoreUser,
         role: Role,
-        name: str = None,
         code: str = None,
-        supervisor: CoreUser = None,
         joining_date: datetime.date = datetime.datetime.today().date(),
     ):
+
         new_staff = Staff()
         new_staff.id = core_user
-        new_staff.name = (
-            name if name else f"{core_user.first_name} {core_user.last_name}"
-        )
+        new_staff.name = f"{core_user.first_name} {core_user.last_name}"
         new_staff.code = code if code else core_user.username[:5].upper()
         new_staff.role = role
-        new_staff.supervisor = supervisor
         new_staff.joining_date = joining_date
         new_staff.save()
 
         self.style.SUCCESS(f"Staff created successfully! {str(new_staff)}")
 
         return new_staff
+
+    def set_superuser_as_supervisor(self):
+        supervisor = Staff.objects.get(id__username="SuperUser")
+        all_staff = Staff.objects.update(supervisor=supervisor)
 
     def create_mid_level(self):
         mid_level = Role.objects.get(slug="mid")
