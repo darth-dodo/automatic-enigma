@@ -18,12 +18,13 @@ from django.urls import include, path
 
 from backend import settings
 
-from .views import ping
+from .views import ping, trigger_error
 
 urlpatterns = [
     path("grappelli/", include("grappelli.urls")),  # grappelli URLS
     path("", admin.site.urls),
     path("ping/", ping, name="ping"),
+    path("trigger-error/", trigger_error, name="trigger_error"),
 ]
 
 
