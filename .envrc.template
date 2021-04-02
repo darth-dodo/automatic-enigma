@@ -5,3 +5,6 @@ export DATABASE_URL="postgres://physio_app_8wykrrf:k64$bj$v+1@localhost:5432/phy
 export ENTITY_NAME="Dr Bangera's Sai Physiotherapy Clinic"
 export DROPDOWN_LIMITS="10"
 export SWITCH_USER="True"
+export SENTRY_KEY="058e5468986b4b00abdb05490cda41b4"
+export SENTRY_PROJECT_ID="5171748"
+export ENABLE_SENTRY="False"

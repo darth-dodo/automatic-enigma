@@ -161,6 +161,37 @@ class Base(Configuration):
     )
     GRAPPELLI_SWITCH_USER = values.BooleanValue(environ_prefix="", default=True)
 
+    # sentry vars
+    ENABLE_SENTRY = values.BooleanValue(environ_prefix="", default=True)
+    SENTRY_PROJECT_ID = values.Value(
+        environ_prefix="", default=None, environ_name="SENTRY_PROJECT_ID"
+    )
+    SENTRY_KEY = values.Value(
+        environ_prefix="", default=None, environ_name="SENTRY_KEY"
+    )
+
+    @classmethod
+    def post_setup(cls):
+        super().post_setup()
+
+        # setup sentry
+        if cls.ENABLE_SENTRY:
+            cls._enable_sentry()
+
+    # protected methods
+    @classmethod
+    def _enable_sentry(cls):
+        import sentry_sdk
+        from sentry_sdk.integrations.django import DjangoIntegration
+
+        sentry_sdk.init(
+            dsn=f"https://{cls.SENTRY_KEY}@sentry.io/{cls.SENTRY_PROJECT_ID}",
+            integrations=[DjangoIntegration()],
+            # If you wish to associate users to errors (assuming you are using
+            # django.contrib.auth) you may enable sending PII data.
+            send_default_pii=True,
+        )
+
 
 class Dev(Base):
     DEBUG = values.BooleanValue(environ_prefix="", default=True)

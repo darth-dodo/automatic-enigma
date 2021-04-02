@@ -1,8 +1,8 @@
-from django.http import JsonResponse
 import datetime
+
 import pytz
 from django.core.management.utils import get_random_secret_key
-from backend.settings import Base
+from django.http import JsonResponse
 
 
 def ping(request):
@@ -13,3 +13,7 @@ def ping(request):
     ).isoformat()
     data["random_string"] = get_random_secret_key()
     return JsonResponse(data)
+
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
