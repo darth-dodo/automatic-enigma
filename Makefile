@@ -32,8 +32,12 @@ patient-data:
 appointment-data:
 	python manage.py bootstrap_appointment_data
 
+finance-data:
+	python manage.py bootstrap_finance_with_mock_data
+
+
 reset-db:
-	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data && $(MAKE) patient-data && $(MAKE) appointment-data
+	$(MAKE) drop-db && $(MAKE) create-db && python manage.py migrate  && $(MAKE) staff-data && $(MAKE) patient-data && $(MAKE) appointment-data && $(MAKE) finance-data
 
 
 generate-inheritance-eerd:
