@@ -137,6 +137,12 @@ class Payment(FinanceAbstractModel):
         pass
 
     def save(self, *args, **kwargs):
+
+        if not self.pk:
+            self.patient = self.appointment.patient
+            self.staff = self.appointment.staff
+            self.timeslot = self.appointment.timeslot
+
         super().save(*args, **kwargs)
         if self.credit:
             self._update_credit_balance()
