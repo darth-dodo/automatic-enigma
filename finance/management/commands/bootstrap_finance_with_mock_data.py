@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
         self._create_payment_modes()
 
-        self._create_credit_and_payments_for_patients(number=2)
+        self._create_credit_and_payments_for_patients(number=5)
 
         self._create_ad_hoc_payments()
 
