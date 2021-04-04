@@ -50,7 +50,8 @@ class TimeStampedAndActivatorModel(TimeStampedModel, ActivatorModel):
 class Role(
     TimeStampedAndActivatorModel, TitleSlugDescriptionModel, CreatorUpdaterMixin
 ):
-    pass
+    class Meta:
+        unique_together = ["title", "slug"]
 
     def __str__(self):
         return f"{self.title} - {self.slug} - {self.get_status_display()}"

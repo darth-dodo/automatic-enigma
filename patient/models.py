@@ -74,7 +74,7 @@ class Patient(PatientAbstractModel):
         return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
-        return f"{self.full_name} - {self.gender} - {self.age} | {self.created_by.name} {self.updated_by.name} "
+        return f"{self.full_name} - {self.gender} - {self.age}"
 
 
 class PatientDetail(PatientAbstractModel):

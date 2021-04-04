@@ -1,6 +1,6 @@
 import datetime
 
-# Create your models here.
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django_extensions.db.models import (
@@ -8,6 +8,8 @@ from django_extensions.db.models import (
     TimeStampedModel,
     TitleSlugDescriptionModel,
 )
+
+from finance.constants import APPOINTMENT_PRESENT_STATE_TITLE
 
 """
 ### Finance
@@ -43,7 +45,7 @@ class PaymentMode(FinanceAbstractModel, TitleSlugDescriptionModel):
     pass
 
     class Meta:
-        pass
+        unique_together = ["title", "slug"]
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -67,18 +69,18 @@ class Credit(FinanceAbstractModel):
             self.balance = self.total_amount
 
         if not self.total_amount < self.balance:
-            raise ValueError("Balance amount cannot be more Total Amount!")
+            raise ValidationError("Balance amount cannot be more Total Amount!")
 
         today = datetime.datetime.today()
 
         if self.valid_until < today:
-            raise ValueError("Validity expired")
+            raise ValidationError("Validity expired")
 
     class Meta:
         ordering = ["-modified"]
 
     def __str__(self) -> str:
-        return f"Patient: {self.patient.name} Total: {self.total_amount} Balance: {self.balance}"
+        return f"Patient: {self.patient} Total: {self.total_amount} Balance: {self.balance}"
 
 
 class Payment(FinanceAbstractModel):
@@ -122,7 +124,10 @@ class Payment(FinanceAbstractModel):
 
     def clean(self):
 
-        # todo if appointment state is not complete do not attach a payment
+        if self.appointment.state.title != APPOINTMENT_PRESENT_STATE_TITLE:
+            raise ValidationError(
+                "Payment cannot be registered across appointment which is not "
+            )
 
         self.patient = self.appointment.patient
         self.staff = self.appointment.staff
@@ -130,6 +135,22 @@ class Payment(FinanceAbstractModel):
 
     class Meta:
         pass
+
+    def save(self, *args, **kwargs):
+
+        if not self.pk:
+            self.patient = self.appointment.patient
+            self.staff = self.appointment.staff
+            self.timeslot = self.appointment.timeslot
+
+        super().save(*args, **kwargs)
+        if self.credit:
+            self._update_credit_balance()
+
+    def _update_credit_balance(self):
+        credit_object = self.credit
+        credit_object.balance -= self.amount
+        credit_object.save()
 
     @property
     def is_from_credit(self) -> bool:
@@ -140,4 +161,4 @@ class Payment(FinanceAbstractModel):
         return "Yes" if self.is_from_credit else "NA"
 
     def __str__(self) -> str:
-        return f"Payment for Patient {self.patient.name} Staff: {self.staff.name} Amount: {self.amount} Credit: {self.is_from_credit_verbose}"
+        return f"Payment for Patient {self.patient} Staff: {self.staff} Amount: {self.amount} Credit: {self.is_from_credit_verbose}"

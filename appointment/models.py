@@ -42,7 +42,7 @@ class TimeSlot(AppointmentAbstractModel, TitleSlugDescriptionModel):
     end_time = models.TimeField()
 
     class Meta:
-        pass
+        unique_together = ["title", "slug"]
 
     def __str__(self):
         return f"{self.title} - {self.start_time} - {self.end_time}"
@@ -52,7 +52,7 @@ class State(AppointmentAbstractModel, TitleSlugDescriptionModel):
     pass
 
     class Meta:
-        pass
+        unique_together = ["title", "slug"]
 
     def __str__(self):
         return f"{self.title}"
