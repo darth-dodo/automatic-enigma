@@ -59,7 +59,7 @@ class PaymentMode(FinanceAbstractModel, TitleSlugDescriptionModel):
     pass
 
     class Meta:
-        unique_together = ["title", "slug"]
+        unique_together = ["title"]
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -91,7 +91,7 @@ class Credit(FinanceAbstractModel):
             raise ValidationError("Validity expired")
 
     class Meta:
-        ordering = ["-modified"]
+        ordering = ["-created"]
 
     def __str__(self) -> str:
         return f"Patient: {self.patient} Total: {self.total_amount} Balance: {self.balance}"
@@ -148,7 +148,7 @@ class Payment(FinanceAbstractModel):
         self.timeslot = self.appointment.timeslot
 
     class Meta:
-        pass
+        unique_together = ["appointment", "patient"]
 
     def save(self, *args, **kwargs):
 
