@@ -1,12 +1,13 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 
 from finance.models import Credit, Payment, PaymentMode
 
-admin.site.register(PaymentMode)
-admin.site.register(Credit)
+admin.site.register(PaymentMode, SimpleHistoryAdmin)
+admin.site.register(Credit, SimpleHistoryAdmin)
 
 
-class PaymentAdmin(admin.ModelAdmin):
+class PaymentAdmin(SimpleHistoryAdmin):
     list_display = [
         "appointment",
         "patient",
@@ -34,6 +35,7 @@ class PaymentAdmin(admin.ModelAdmin):
     list_filter = ["mode", "staff__role", "patient"]
     search_fields = ["staff__code", "mode__title"]
     ordering = ["-created", "-modified"]
+    date_hierarchy = "date"
 
     class Meta:
         model = Payment

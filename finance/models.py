@@ -8,6 +8,7 @@ from django_extensions.db.models import (
     TimeStampedModel,
     TitleSlugDescriptionModel,
 )
+from simple_history.models import HistoricalRecords
 
 from finance.constants import APPOINTMENT_PRESENT_STATE_TITLE
 
@@ -21,8 +22,21 @@ from finance.constants import APPOINTMENT_PRESENT_STATE_TITLE
 
 """
 
+# Abstract Models
 
-class FinanceAbstractModel(TimeStampedModel):
+
+class FinanceHistoricalRecordMixin(models.Model):
+    """
+    Abstract model for integrating Historical Records/ Record versioning in shadow tables
+    """
+
+    history = HistoricalRecords(inherit=True)
+
+    class Meta:
+        abstract = True
+
+
+class FinanceAbstractModel(TimeStampedModel, FinanceHistoricalRecordMixin):
     created_by = models.ForeignKey(
         to="staff.Staff",
         related_name="%(class)s_created_by",
