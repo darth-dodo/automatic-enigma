@@ -45,6 +45,7 @@ class Base(Configuration):
         "django.contrib.staticfiles",
         "django_extensions",
         "phonenumber_field",
+        "simple_history",
     ]
 
     PROJECT_APPS = ["patient", "staff", "appointment", "finance"]
@@ -60,6 +61,7 @@ class Base(Configuration):
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "simple_history.middleware.HistoryRequestMiddleware",
     ]
 
     ROOT_URLCONF = "backend.urls"

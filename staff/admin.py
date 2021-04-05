@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.contrib.admin import TabularInline
+from simple_history.admin import SimpleHistoryAdmin
 
 from staff.models import Feedback, Role, Staff
 
 # Register your models here.
-admin.site.register(Role)
-# admin.site.register(Staff)
-admin.site.register(Feedback)
+admin.site.register(Role, SimpleHistoryAdmin)
+admin.site.register(Feedback, SimpleHistoryAdmin)
 
 
 class FeedbackInline(TabularInline):
@@ -33,7 +33,7 @@ class StaffInline(TabularInline):
     can_delete = False
 
 
-class StaffAdmin(admin.ModelAdmin):
+class StaffAdmin(SimpleHistoryAdmin):
     list_display = ("name", "role", "supervisor", "code", "get_status_display")
     search_fields = ["code", "name"]
     list_display_links = ["name", "code"]

@@ -5,11 +5,27 @@ from django_extensions.db.models import (
     TimeStampedModel,
     TitleSlugDescriptionModel,
 )
+from simple_history.models import HistoricalRecords
 
-# Create your models here.
+# Abstract Models
+
+
+class StaffHistoricalRecordMixin(models.Model):
+    """
+    Abstract model for integrating Historical Records/ Record versioning in shadow tables
+    """
+
+    history = HistoricalRecords(inherit=True)
+
+    class Meta:
+        abstract = True
 
 
 class CreatorMixin(models.Model):
+    """
+    Abstract model for adding `created_by`
+    """
+
     created_by = models.ForeignKey(
         "staff.Staff",
         related_name="%(class)s_created_by",
@@ -24,6 +40,10 @@ class CreatorMixin(models.Model):
 
 
 class UpdaterMixin(models.Model):
+    """
+    Abstract model for adding `updated_by`
+    """
+
     updated_by = models.ForeignKey(
         "staff.Staff",
         related_name="%(class)s_updated_by",
@@ -47,17 +67,31 @@ class TimeStampedAndActivatorModel(TimeStampedModel, ActivatorModel):
         abstract = True
 
 
+# App Models
+
+
 class Role(
-    TimeStampedAndActivatorModel, TitleSlugDescriptionModel, CreatorUpdaterMixin
+    TimeStampedAndActivatorModel,
+    TitleSlugDescriptionModel,
+    CreatorUpdaterMixin,
+    StaffHistoricalRecordMixin,
 ):
+    """
+    Model to store Staff roles eg. Finance, Senior Doctor, SuperUser
+
+    This can be further used to restrict/grant access in combination with Django Groups or a new `Permissions` entity
+    """
+
     class Meta:
-        unique_together = ["title", "slug"]
+        unique_together = ["title"]
 
     def __str__(self):
         return f"{self.title} - {self.slug} - {self.get_status_display()}"
 
 
-class Staff(TimeStampedAndActivatorModel, CreatorUpdaterMixin):
+class Staff(
+    TimeStampedAndActivatorModel, CreatorUpdaterMixin, StaffHistoricalRecordMixin
+):
     id = models.OneToOneField(
         CoreUser, on_delete=models.PROTECT, primary_key=True, related_name="staff"
     )
@@ -87,7 +121,7 @@ class Staff(TimeStampedAndActivatorModel, CreatorUpdaterMixin):
         return f"{self.name} - {self.role.title} - {self.get_status_display()}"
 
 
-class Feedback(TimeStampedModel, CreatorUpdaterMixin):
+class Feedback(TimeStampedModel, CreatorUpdaterMixin, StaffHistoricalRecordMixin):
     member = models.ForeignKey(
         to="staff.Staff",
         on_delete=models.PROTECT,
