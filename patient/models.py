@@ -81,7 +81,7 @@ class Patient(PatientAbstractModel):
     )
 
     class Meta:
-        pass
+        unique_together = ["first_name", "last_name", "primary_contact"]
 
     @property
     def full_name(self):
