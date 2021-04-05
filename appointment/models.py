@@ -5,20 +5,23 @@ from django_extensions.db.models import (
     TimeStampedModel,
     TitleSlugDescriptionModel,
 )
+from simple_history.models import HistoricalRecords
 
-"""
-### Appointments
-- time slots are flexible
-- appointment has a state
-- appointment has a time slot
-- appointment has a patient
-- appointment has a staff
-- appointment has several followups
-- appointment has several appointment notes
-"""
+# Abstract Models
 
 
-class AppointmentAbstractModel(TimeStampedModel):
+class AppointmentHistoricalRecordMixin(models.Model):
+    """
+    Abstract model for integrating Historical Records/ Record versioning in shadow tables
+    """
+
+    history = HistoricalRecords(inherit=True)
+
+    class Meta:
+        abstract = True
+
+
+class AppointmentAbstractModel(TimeStampedModel, AppointmentHistoricalRecordMixin):
     created_by = models.ForeignKey(
         to="staff.Staff",
         related_name="%(class)s_created_by",

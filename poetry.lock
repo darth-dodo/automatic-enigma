@@ -270,6 +270,17 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "django-simple-history"
+version = "2.12.0"
+description = "Store model history and view/revert changes from admin site."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "faker"
 version = "6.6.2"
 description = "Faker is a Python package that generates fake data for you."
@@ -729,7 +740,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.8"
-content-hash = "49ce19dd4cc999f5196c9ad46d441752c1dfa40f5c03ee124a2590f5d424e56d"
+content-hash = "2e4daa950ca06e52639b3187401eb25be9e6c56ddcaab55078e3cfbf73becb14"
 
 [metadata.files]
 appdirs = [
@@ -856,6 +867,10 @@ django-phonenumber-field = [
 ]
 django-querycount = [
     {file = "django-querycount-0.7.0.tar.gz", hash = "sha256:8f5123d78716ff0704f2373e746a7200b8d8417798ce4a99bf2de87e3768f9ce"},
+]
+django-simple-history = [
+    {file = "django-simple-history-2.12.0.tar.gz", hash = "sha256:3b7bf6bfbcf973afca123c5786c72b917ed4d92d7bf3b6cb70fe2e3850e763a3"},
+    {file = "django_simple_history-2.12.0-py2.py3-none-any.whl", hash = "sha256:e7e830cb7a768dc90d6ba0507f8023f889bcb62fe31a08f18fac102c55eec539"},
 ]
 faker = [
     {file = "Faker-6.6.2-py3-none-any.whl", hash = "sha256:60a7263104ef7a14ecfe2af1142d53924aa534ccec85cea82bb67b2b32f84421"},

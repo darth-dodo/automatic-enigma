@@ -1,14 +1,15 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 
 from patient.models import Patient, PatientDetail, PhoneNumber
 from staff.models import Staff
 
 # Register your models here.
-admin.site.register(Patient)
-admin.site.register(PatientDetail)
+admin.site.register(Patient, SimpleHistoryAdmin)
+admin.site.register(PatientDetail, SimpleHistoryAdmin)
 
 
-class PhoneNumberAdmin(admin.ModelAdmin):
+class PhoneNumberAdmin(SimpleHistoryAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "phone_number_created_by":
             kwargs["queryset"] = Staff.objects.filter(username=request.user.username)
