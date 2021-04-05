@@ -3,11 +3,25 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django_extensions.db.models import ActivatorModel, TimeStampedModel
 from phonenumber_field.modelfields import PhoneNumberField
+from simple_history.models import HistoricalRecords
 
 from patient.constants import GENDER_OPTIONS
 
+# Abstract Models
 
-class PatientAbstractModel(TimeStampedModel):
+
+class PatientHistoricalRecordMixin(models.Model):
+    """
+    Abstract model for integrating Historical Records/ Record versioning in shadow tables
+    """
+
+    history = HistoricalRecords(inherit=True)
+
+    class Meta:
+        abstract = True
+
+
+class PatientAbstractModel(TimeStampedModel, PatientHistoricalRecordMixin):
     created_by = models.ForeignKey(
         to="staff.Staff",
         related_name="%(class)s_created_by",
