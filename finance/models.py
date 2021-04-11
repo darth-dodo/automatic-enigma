@@ -164,6 +164,7 @@ class Payment(FinanceAbstractModel):
     def _update_credit_balance(self):
         credit_object = self.credit
         credit_object.balance -= self.amount
+        credit_object.clean()
         credit_object.save()
 
     @property
