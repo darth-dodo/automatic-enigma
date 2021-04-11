@@ -140,7 +140,7 @@ class Payment(FinanceAbstractModel):
 
         if self.appointment.state.title != APPOINTMENT_PRESENT_STATE_TITLE:
             raise ValidationError(
-                "Payment cannot be registered across appointment which is not "
+                "Payment cannot be registered across appointment which is not marked as Present!"
             )
 
         self.patient = self.appointment.patient
