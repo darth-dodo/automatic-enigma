@@ -85,7 +85,7 @@ class Credit(FinanceAbstractModel):
         if self.balance > self.total_amount:
             raise ValidationError("Balance amount cannot be more Total Amount!")
 
-        today = datetime.datetime.today()
+        today = datetime.datetime.today().date()
 
         if self.valid_until < today:
             raise ValidationError("Validity expired")
