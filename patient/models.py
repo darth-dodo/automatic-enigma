@@ -79,6 +79,7 @@ class Patient(PatientAbstractModel):
     phone_numbers = models.ManyToManyField(
         to="patient.PhoneNumber", related_name="patients"
     )
+    locality = models.TextField(default="NA")
 
     class Meta:
         unique_together = ["first_name", "last_name", "primary_contact"]
