@@ -77,7 +77,7 @@ class Patient(PatientAbstractModel):
         on_delete=models.PROTECT,
     )
     phone_numbers = models.ManyToManyField(
-        to="patient.PhoneNumber", related_name="patients"
+        to="patient.PhoneNumber", related_name="patients", blank=True
     )
     locality = models.TextField(default="NA")
 

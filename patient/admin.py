@@ -5,11 +5,13 @@ from patient.models import Patient, PatientDetail, PhoneNumber
 from staff.models import Staff
 
 # Register your models here.
-admin.site.register(Patient, SimpleHistoryAdmin)
+# admin.site.register(Patient, SimpleHistoryAdmin)
 admin.site.register(PatientDetail, SimpleHistoryAdmin)
 
 
 class PhoneNumberAdmin(SimpleHistoryAdmin):
+    search_fields = ["phone_number"]
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "phone_number_created_by":
             kwargs["queryset"] = Staff.objects.filter(username=request.user.username)
@@ -24,3 +26,20 @@ class PhoneNumberAdmin(SimpleHistoryAdmin):
 
 
 admin.site.register(PhoneNumber, PhoneNumberAdmin)
+
+
+class PatientAdmin(SimpleHistoryAdmin):
+    search_fields = ["first_name", "primary_contact__phone_number", "last_name"]
+    autocomplete_fields = ["phone_numbers", "primary_contact"]
+    list_filter = ["gender", "locality"]
+    list_display = [
+        "full_name",
+        "gender",
+        "locality",
+        "primary_assessment_sheet",
+        "primary_contact",
+    ]
+    list_display_links = ["full_name"]
+
+
+admin.site.register(Patient, PatientAdmin)
