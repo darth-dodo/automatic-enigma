@@ -87,6 +87,8 @@ class Command(BaseCommand):
         )
 
         patient = Patient()
+        localities = ["Tilak Nagar", "Chheda Nagar", "Garodia Nagar", "Pant Nagar"]
+
         patient.created_by = patient.updated_by = random_staff
 
         fake_profile = fake.profile()
@@ -104,6 +106,9 @@ class Command(BaseCommand):
             patient.note = fake.paragraph()
 
         patient.primary_contact = random_contact
+
+        if secrets.choice([True, False]):
+            patient.locality = secrets.choice(localities)
 
         patient.save()
 
