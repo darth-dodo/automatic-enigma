@@ -35,9 +35,28 @@
 - payment can have payment modes
 - payment has a reference
 - payment can be from patient credit
-
-
 - staff has attached to time slot from x to y duration
+
+
+### Treatment
+- Difficulty
+- Expertise
+- Exercise Types
+- Body Section is required for bucketing exercises based on different body parts
+- Exercise has
+    - Title
+    - Exercise Type
+    - Staff Expertise
+    - Difficulty
+    - multiple body sections
+    - Information URL
+    - Notes
+- Exercise is from an exercise type
+- An Exercise may impact multiple body parts
+- Zero or more Equipment can be used in an exercise
+- Regime is the recommended set/course of the Exercise attached to an appointment
+- An Appointment can have one or more than exercises in it
+
 
 
 ## ERD
