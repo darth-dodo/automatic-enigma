@@ -70,6 +70,10 @@ class Command(BaseCommand):
         su = Staff.objects.get(id__username="SuperUser")
 
         for mode in modes:
+
+            if PaymentMode.objects.filter(title=mode).exists():
+                continue
+
             new_mode = PaymentMode()
             new_mode.created_by = new_mode.updated_by = su
             new_mode.title = mode
@@ -89,8 +93,19 @@ class Command(BaseCommand):
         attach new payments for each appointment linked to the credit
         """
 
+        appointments_with_payments = Payment.objects.all().values_list(
+            "appointment_id", flat=True
+        )
+
+        appointments_without_payments = Appointment.objects.exclude(
+            id__in=appointments_with_payments
+        )
+
+        print(len(appointments_with_payments))
+        print(len(appointments_without_payments))
+
         appointments_grouped_by_patients = (
-            Appointment.objects.values("patient")
+            appointments_without_payments.values("patient")
             .annotate(count=Count("id"))
             .order_by("-count")[:number]
         )
@@ -140,11 +155,21 @@ class Command(BaseCommand):
         credit = patient.credits.first()
 
         # mark only present appointments as paid
-        appointments = patient.appointments.filter(
+        patient_appointments = patient.appointments.all()
+
+        appointments_with_payment_made = patient.payments.values_list(
+            "appointment_id", flat=True
+        )
+
+        appointments_without_payment = patient_appointments.exclude(
+            id__in=appointments_with_payment_made
+        )
+
+        appointments_without_payment_and_present = appointments_without_payment.filter(
             state__title=APPOINTMENT_PRESENT_STATE_TITLE
         )
 
-        for appointment in appointments:
+        for appointment in appointments_without_payment_and_present:
 
             credit.refresh_from_db()
             print(

@@ -41,7 +41,7 @@ reset-db:
 
 
 generate-inheritance-eerd:
-	python manage.py graph_models -g -a -v 2 -o eerd.png
+	python manage.py graph_models -X Historical* -g -a -v 2 -o eerd.png
 
 generate-simple-eerd:
-	python manage.py graph_models -E -g -a -v 2 -o simple-eerd.png
+	python manage.py graph_models -E -X Historical* -g -a -o simple-eerd.png

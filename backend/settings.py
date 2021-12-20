@@ -48,7 +48,7 @@ class Base(Configuration):
         "simple_history",
     ]
 
-    PROJECT_APPS = ["patient", "staff", "appointment", "finance"]
+    PROJECT_APPS = ["patient", "staff", "appointment", "finance", "treatment"]
 
     INSTALLED_APPS = SYSTEM_APPS + PROJECT_APPS
 
