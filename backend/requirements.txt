@@ -1,0 +1,15 @@
+Django>=4.2,<5.0
+djangorestframework
+djangorestframework-simplejwt
+django-environ
+drf-yasg
+sentry-sdk
+twilio
+gunicorn
+pytest
+pytest-django
+pytest-cov
+black
+flake8
+isort
+locust
